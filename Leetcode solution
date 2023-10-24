@@ -1,0 +1,44 @@
+class Solution {
+public:
+    string decodeString(string s) {
+
+
+        // very important question for the coding test 
+
+        stack<string>st;
+        for(auto ch:s){
+            if(ch==']'){
+                string stringtorepeat="";
+                while(!st.empty()&&!isdigit(st.top()[0])){
+                    string top=st.top();
+                    stringtorepeat+=top=="[" ? "" : top;
+                    st.pop();
+                }
+                string numerictimes="";
+                while(!st.empty()&&isdigit(st.top()[0])){
+                    numerictimes+=st.top();
+                    st.pop();
+                }
+                reverse(numerictimes.begin(),numerictimes.end());
+                int n=stoi(numerictimes);
+                // final decoding
+                string currentdecode="";
+                while(n--){
+                    currentdecode+=stringtorepeat;
+                }
+                st.push(currentdecode);
+            }
+            else{
+                string temp(1,ch);
+                st.push(temp);
+            }
+        }
+        string ans;
+        while(!st.empty()){
+            ans+=st.top();
+            st.pop();
+        }
+        reverse(ans.begin(),ans.end());
+        return ans;
+    }
+};
